@@ -1,0 +1,126 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileHelper.Views.TechniquesPage"
+             xmlns:vm="clr-namespace:MobileHelper.ViewModels"
+             xmlns:local="clr-namespace:MobileHelper"
+             BackgroundColor="{AppThemeBinding Light=white, Dark=#444444}"
+             Title="{Binding Title}">
+
+    <ContentPage.BindingContext>
+        <vm:TechniquesViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ff</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout Margin="5">
+        <StackLayout Padding="10" Margin="0, 10, 0, 5" Orientation="Horizontal">
+            <Label
+                Text="Мои техники"
+                FontSize="19"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="Center"
+                TextColor="{AppThemeBinding Light=black, Dark=white}"/>
+            <Button 
+                Text="Создать"
+                FontSize="13"
+                FontAttributes="Bold"
+                BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark=white}"
+                TextColor="{AppThemeBinding Light=white, Dark=black}"
+                CornerRadius="25"
+                WidthRequest="150"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Clicked="Button_Clicked"
+                HeightRequest="40"/>
+        </StackLayout>
+
+        <ListView
+            HasUnevenRows="True"
+            SeparatorVisibility="None"
+            ItemsSource="{Binding techniques}"
+            SelectionMode="None"
+            ItemTapped="ListView_ItemTapped"
+            VerticalScrollBarVisibility="Never"
+            HorizontalScrollBarVisibility="Never"
+            >
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+
+                        <local:LocalFrame
+                            CornerRadius="25">
+
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label 
+                                       Text="{Binding id}"
+                                       Margin="5, 0, 0, 0"
+                                       FontSize="14"
+                                       TextColor="{AppThemeBinding Light=black, Dark=white}"
+                                       HorizontalOptions="Start"
+                                       />
+
+                                    <Label 
+                                        Text="{Binding date}"
+                                        Margin="0, 0, 5, 0"
+                                        FontSize="15"
+                                        HorizontalOptions="EndAndExpand"
+                                        TextColor="{AppThemeBinding Light={StaticResource Gray}, Dark=white}"/>
+                                </StackLayout>
+
+                                <StackLayout Margin="5" Orientation="Horizontal">
+                                    <Image 
+                                    WidthRequest="85"
+                                    HeightRequest="85"
+                                    Source="{Binding image}"
+                                    />
+
+                                    <StackLayout Margin="5, 0, 0, 0">
+                                        <Label 
+                                        Text="{Binding title}"
+                                        FontSize="18"
+                                        FontAttributes="Bold"
+                                        TextColor="{AppThemeBinding Light={StaticResource Gray}, Dark=white}"
+                                        />
+                                        <Label
+                                        Text="{Binding subtitle}"
+                                        Margin="0, 5, 0, 0"
+                                        FontSize="15"
+                                        TextColor="{AppThemeBinding Light={StaticResource Gray}, Dark=white}"/>
+                                    </StackLayout>
+
+                                </StackLayout>
+
+                                <StackLayout Margin="0" Orientation="Horizontal">
+                                    <Label 
+                                       Text="{Binding theme}"
+                                        Margin="5, 0, 0, 0"
+                                       FontSize="15"
+                                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=white}"
+                                       HorizontalOptions="Start"
+                                       />
+
+                                    <Label 
+                                    Text="{Binding author}"
+                                        Margin="0, 0, 5, 0"
+                                    FontSize="14"
+                                    HorizontalOptions="EndAndExpand"
+                                    TextColor="{AppThemeBinding Light=black, Dark=white}"/>
+                                </StackLayout>
+
+                            </StackLayout>
+                        </local:LocalFrame>
+
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

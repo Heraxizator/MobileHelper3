@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MobileHelper" 
+             xmlns:vm="clr-namespace:MobileHelper.ViewModels.ProfileViewModels"
+             BackgroundColor="{AppThemeBinding Light=white, Dark=#444444}"
+             Title="{Binding Title}"
+             x:Class="MobileHelper.Views.UserPage">
+
+    <ContentPage.BindingContext>
+        <vm:UserViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ff</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <StackLayout Margin="15">
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+
+                        <Ellipse
+                        Margin="5, 0, 0, 0"
+                        WidthRequest="50"
+                        HeightRequest="50"
+                        BackgroundColor="{StaticResource Gray}">
+
+                        </Ellipse>
+
+                        <StackLayout Margin="10, 0, 10, 0">
+                            <Label 
+                            TextColor="{StaticResource Gray}"
+                            FontAttributes="Bold"
+                            FontSize="19"
+                            Padding="0"
+                            Margin="0"
+                            Text="Пользователь"/>
+
+                            <Label 
+                            Text="Стандартный"
+                            Padding="0"
+                            Margin="0"
+                            TextColor="Black"
+                            FontSize="16"/>
+
+                        </StackLayout>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+                <StackLayout 
+                Margin="0, 5, 0, 0"
+                HorizontalOptions="Center"
+                Orientation="Horizontal">
+                    <StackLayout Margin="15, 10, 15, 10">
+                        <Label 
+                        TextColor="Black"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="3"/>
+                        <Label 
+                        Text="Пройдено техник"
+                        FontSize="16"
+                        TextColor="Black"/>
+
+                    </StackLayout>
+
+                    <StackLayout Margin="15, 10, 15, 10">
+                        <Label 
+                        TextColor="Black"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="0"/>
+                        <Label 
+                        Text="Подписчиков"
+                        FontSize="16"
+                        TextColor="Black"/>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+                <StackLayout Margin="0, 5, 5, 5">
+                    <Label 
+                    Text="Советуем пройти"
+                    FontSize="18"
+                    TextColor="{StaticResource Gray}"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Start"/>
+
+                    <CollectionView 
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalScrollBarVisibility="Never"
+                    HeightRequest="150"
+                    ItemsSource="{Binding techniques}">
+
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <local:LocalFrame
+                                HeightRequest="150"
+                                WidthRequest="250"
+                                CornerRadius="25">
+
+                                    <StackLayout Margin="10, 5, 5, 5">
+                                        <Label 
+                                        Text="{Binding title}"
+                                        FontAttributes="Bold"
+                                        TextColor="{Binding Gray}"
+                                        FontSize="18"/>
+
+                                        <Label
+                                        Text="{Binding subtitle}"
+                                        TextColor="Black"
+                                        FontSize="16"/>
+
+                                    </StackLayout>
+                                </local:LocalFrame>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+                </StackLayout>
+
+                <StackLayout Margin="5, 0, 5, 5">
+                    <Label 
+                    Text="Лучшие цитаты"
+                    TextColor="{StaticResource Gray}"
+                    FontAttributes="Bold"
+                    FontSize="18"/>
+
+                    <ListView
+                        SelectionMode="None"
+                        HeightRequest="300"
+                        HasUnevenRows="True"
+                        VerticalScrollBarVisibility="Never"
+                        SeparatorVisibility="None"
+                        ItemsSource="{Binding quots}">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <local:LocalFrame
+                                    CornerRadius="25">
+
+                                        <StackLayout Margin="10, 5, 5, 5">
+                                            <Label 
+                                            Text="{Binding Author}"
+                                            FontAttributes="Bold"
+                                            TextColor="{Binding Gray}"
+                                            FontSize="18"/>
+
+                                            <Label
+                                            Text="{Binding Text}"
+                                            TextColor="Black"
+                                            FontSize="16"/>
+
+                                        </StackLayout>
+                                    </local:LocalFrame>
+                                </ViewCell>
+
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+
+    </ContentPage.Content>
+</ContentPage>

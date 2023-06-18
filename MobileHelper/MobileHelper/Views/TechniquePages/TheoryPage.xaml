@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileHelper.Views.TheoryPage"
+             xmlns:local="clr-namespace:MobileHelper" 
+             xmlns:vm="clr-namespace:MobileHelper.ViewModels.TechniqueViewModels"
+             BackgroundColor="{AppThemeBinding Light=white, Dark=#444444}"
+             Title="{Binding Title}">
+    
+    <ContentPage.BindingContext>
+        <vm:TheoryViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ff</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout Margin="5, 10, 5, 5">
+            <Label
+                Text="Описание"
+                FontSize="19"
+                TextColor="{AppThemeBinding Light=black, Dark=white}"
+                Margin="0, 5, 0, 10"
+                HorizontalOptions="CenterAndExpand"
+                HorizontalTextAlignment="Center"/>
+
+            <local:ExtendedLabel
+                JustifyText="True"
+                Text="{Binding Text}"
+                FontSize="18"
+                TextColor="{AppThemeBinding Light=black, Dark=white}"
+                Margin="15, 5, 15, 10"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

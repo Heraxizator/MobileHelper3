@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileHelper.Views.CreatedPage"
+             xmlns:local="clr-namespace:MobileHelper" 
+             xmlns:vm="clr-namespace:MobileHelper.ViewModels.ConstructorViewModels"
+             BackgroundColor="{AppThemeBinding Light=white, Dark=#444444}"
+             Title="{Binding Title}">
+    
+    <ContentPage.BindingContext>
+        <vm:CreatedViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Accent">#96d1ff</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Изменить" Command="{Binding Edit}" />
+        <ToolbarItem Text="Удалить" Command="{Binding Remove}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout Margin="5">
+            <local:LocalFrame Margin="0, 5, 0, 0" CornerRadius="25">
+                <StackLayout Margin="5">
+                    <Label
+                        Text="Алгоритм"
+                        FontSize="18"
+                        Margin="10, 5, 5, 15"
+                        TextColor="{AppThemeBinding Light=black, Dark=white}"/>
+
+                    <ListView 
+                        Margin="0, 0, 0, 5"
+                        ItemsSource="{Binding Elements}"
+                        SeparatorVisibility="None"
+                        SelectionMode="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label 
+                                        Margin="15, 0, 0, 10"
+                                        Text="{Binding Text}"
+                                        TextColor="{AppThemeBinding Light=black, Dark=white}"
+                                        FontSize="16"/>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <!--
+                    <Label 
+                        Margin="15, 0, 0, 10"
+                        Text="1. Найти эпизод, который беспокоит"
+                        TextColor="{AppThemeBinding Light=black, Dark=white}"
+                        FontSize="16"/>
+
+                    <Label 
+                        Margin="15, 0, 0, 10"
+                        Text="2. Определить ключевое чувство"
+                        TextColor="{AppThemeBinding Light=black, Dark=white}"
+                        FontSize="16"/>
+
+                    <Label 
+                        Margin="15, 0, 0, 15"
+                        Text="3. Оценить чувство по 10-балльной шкале"
+                        TextColor="{AppThemeBinding Light=black, Dark=white}"
+                        FontSize="16"/>
+                    -->
+
+                </StackLayout>
+
+            </local:LocalFrame>
+
+            <Button 
+                    Margin="10, 15, 10, 15"
+                    Text="Завершить"
+                    FontSize="15"
+                    TextColor="White"
+                    BackgroundColor="{StaticResource Primary}"
+                    CornerRadius="25"
+                    WidthRequest="400"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Command="{Binding Finish}"
+                    HeightRequest="40"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
