@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
-using Xamarin.Forms;
-
-namespace MobileHelper.ViewModels.TechniqueViewModels
+﻿namespace MobileHelper.ViewModels.TechniqueViewModels
 {
     public class TheoryViewModel : BaseViewModel
     {
@@ -16,20 +10,20 @@ namespace MobileHelper.ViewModels.TechniqueViewModels
 
         public TheoryViewModel(string content)
         {
-            Title = "Теория";
-            Text = content;
+            this.Title = "Теория";
+            this.Text = content;
 
         }
 
         public string Text
         {
-            get => text;
+            get => this.text;
             set
             {
-                if (text != value)
+                if (this.text != value)
                 {
-                    text = value;
-                    OnPropertyChanged(nameof(Text));
+                    this.text = value;
+                    OnPropertyChanged(nameof(this.Text));
                 }
             }
         }

@@ -1,9 +1,5 @@
-﻿using MobileHelper.Models;
-using MobileHelper.Views;
-using System;
-using System.Collections.Generic;
+﻿using MobileHelper.Models.Items;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -15,8 +11,8 @@ namespace MobileHelper.ViewModels.TechniqueViewModels
         public string positive { get; set; }
         public string negative { get; set; }
         public bool isFull { get; set; }
-        public polarity polarity { get; set; }
-        public ObservableCollection<polarity> polarities { get; set; }
+        public Polarity polarity { get; set; }
+        public ObservableCollection<Polarity> polarities { get; set; }
         public PolarityViewModel()
         {
 
@@ -24,95 +20,89 @@ namespace MobileHelper.ViewModels.TechniqueViewModels
 
         public PolarityViewModel(INavigation navigation)
         {
-            Title = "Техника";
-            Info = "Любой внутренний конфликт связан с борьбой двух противоположных мотивов, желаний, убеждений или целей. По сути причиной многих духовных проблем являются дуальности. Поэтому работа с полярностями - ещё один путь к освобождению от того, что беспокоит. Но, как правило, далеко не одна пара дуальностей создаёт внутренний конфликт. Их может быть несколько. По этой причине рекомендуется рассматривать побольше возможных пар, связанных с проблемой.";
-            IsFull = false;
-            Navigation = navigation;
-            Finish = new Command(ToFinish);
-            polarities = new ObservableCollection<polarity>();
-            Add = new Command(ToAdd);
-            Theory = new Command(ToTheory);
+            this.Title = "Техника";
+            this.Info = "Любой внутренний конфликт связан с борьбой двух противоположных мотивов, желаний, убеждений или целей. По сути причиной многих духовных проблем являются дуальности. Поэтому работа с полярностями - ещё один путь к освобождению от того, что беспокоит. Но, как правило, далеко не одна пара дуальностей создаёт внутренний конфликт. Их может быть несколько. По этой причине рекомендуется рассматривать побольше возможных пар, связанных с проблемой.";
+            this.IsFull = false;
+            this.Navigation = navigation;
+            this.Finish = new Command(ToFinish);
+            this.polarities = new ObservableCollection<Polarity>();
+            this.Add = new Command(ToAdd);
+            this.Theory = new Command(ToTheory);
 
         }
 
-        public Command<polarity> Delete
+        public Command<Polarity> Delete => new Command<Polarity>((item) =>
         {
-            get
+            _ = this.polarities.Remove(item);
+            if (this.polarities.Count == 0)
             {
-                return new Command<polarity>((item) =>
-                {
-                    polarities.Remove(item);
-                    if (polarities.Count == 0)
-                    {
-                        IsFull = false;
-                    }
-                });
+                this.IsFull = false;
             }
-        }
+        });
 
         private void ToAdd(object obj)
         {
-            if (!string.IsNullOrEmpty(Negative) && !string.IsNullOrEmpty(Positive))
+            if (!string.IsNullOrEmpty(this.Negative) && !string.IsNullOrEmpty(this.Positive))
             {
-                IsFull = true;
-                polarity item = new polarity { id = "Пара №" + (polarities.Count + 1), positive = Positive, negative = Negative };
-                polarities.Add(item);
-                Polarity = item;
+                this.IsFull = true;
+                Polarity item = new Polarity { Id = "Пара №" + (this.polarities.Count + 1), Positive = this.Positive, Negative = this.Negative };
+                this.polarities.Add(item);
+                this.Polarity = item;
 
-                Negative = "";
-                Positive = "";
+                this.Negative = "";
+                this.Positive = "";
             }
 
         }
 
         public string Positive
         {
-            get => positive;
+            get => this.positive;
             set
             {
-                if (positive != value)
+                if (this.positive != value)
                 {
-                    positive = value;
-                    OnPropertyChanged(nameof(Positive));
+                    this.positive = value;
+                    OnPropertyChanged(nameof(this.Positive));
                 }
             }
         }
 
         public string Negative
         {
-            get => negative;
+            get => this.negative;
             set
             {
-                if (negative != value)
+                if (this.negative != value)
                 {
-                    negative = value;
-                    OnPropertyChanged(nameof(Negative));
+                    this.negative = value;
+                    OnPropertyChanged(nameof(this.Negative));
                 }
             }
         }
 
         public bool IsFull
         {
-            get => isFull;
+            get => this.isFull;
             set
             {
-                if (isFull != value)
+                if (this.isFull != value)
                 {
-                    isFull = value;
-                    OnPropertyChanged(nameof(IsFull));
+                    this.isFull = value;
+                    OnPropertyChanged(nameof(this.IsFull));
                 }
             }
         }
 
-        public polarity Polarity
+        public Polarity Polarity
         {
-            get => polarity;
+            get => this.polarity;
             set
             {
-                if (polarity != value)
+                if (this.polarity != value)
                 {
-                    polarity = value;
-                    OnPropertyChanged(nameof(Polarity));
+                    this.polarity = value;
+                    OnPropertyChanged(nameof(this.Polarity));
                 }
             }
         }

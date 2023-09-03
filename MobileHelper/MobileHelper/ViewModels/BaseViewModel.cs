@@ -1,4 +1,4 @@
-﻿using MobileHelper.Models;
+﻿using MobileHelper.Models.Items.Items;
 using MobileHelper.Services;
 using MobileHelper.Views;
 using System;
@@ -18,35 +18,47 @@ namespace MobileHelper.ViewModels
         public ICommand Theory { get; set; }
         public string Info { get; set; }
 
-        bool isBusy = false;
+        private bool isBusy = false;
         public bool IsBusy
         {
-            get { return isBusy; }
-            set { SetProperty(ref isBusy, value); }
+            get => this.isBusy;
+            set => SetProperty(ref this.isBusy, value);
         }
 
-        string title = string.Empty;
+        private string title = string.Empty;
         public string Title
         {
-            get { return title; }
-            set { SetProperty(ref title, value); }
+            get => this.title;
+            set => SetProperty(ref this.title, value);
         }
 
         public async void ToTheory(object obj)
         {
-            await Navigation.PushAsync(new TheoryPage(Info));
+            if (obj is null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
+            await this.Navigation.PushAsync(new TheoryPage(this.Info));
         }
 
         public async void ToFinish(object obj)
         {
-            await Navigation.PopAsync();
+            if (obj is null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
+            _ = await this.Navigation.PopAsync();
         }
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
             Action onChanged = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
+            {
                 return false;
+            }
 
             backingStore = value;
             onChanged?.Invoke();
@@ -58,9 +70,11 @@ namespace MobileHelper.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            var changed = PropertyChanged;
+            PropertyChangedEventHandler changed = PropertyChanged;
             if (changed == null)
+            {
                 return;
+            }
 
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

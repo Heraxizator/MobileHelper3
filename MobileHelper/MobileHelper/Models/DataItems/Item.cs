@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MobileHelper.Models
+namespace MobileHelper.Models.Items.Items
 {
     public class Item
     {

@@ -4,8 +4,6 @@ using MobileHelper.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -14,7 +12,7 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
 {
     public class DesignerViewModel : BaseViewModel
     {
-        public INavigation Navigation { get; set; }
+        public new INavigation Navigation { get; set; }
         public ICommand ExecuteTechnique { get; set; }
         public ICommand LoadImage { get; set; }
         private SqliteDB DBHelper { get; set; }
@@ -33,12 +31,12 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
         }
         public DesignerViewModel(INavigation navigation, int id)
         {
-            Navigation = navigation;
-            Title = "Конструктор";
-            LoadImage = new Command(ToLoadImage);
-            DBHelper = new SqliteDB();
-            Path = "technique.png";
-            currentId = id;
+            this.Navigation = navigation;
+            this.Title = "Конструктор";
+            this.LoadImage = new Command(ToLoadImage);
+            this.DBHelper = new SqliteDB();
+            this.Path = "technique.png";
+            this.currentId = id;
 
 
             Init();
@@ -46,23 +44,23 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
         private async void Init()
         {
 
-            if (currentId != -1)
+            if (this.currentId != -1)
             {
-                Aim = "Изменить";
-                currentItem = await DBHelper.GetElementById<Technique>(currentId);
-                Name = currentItem.Name;
-                Description = currentItem.Describtion;
-                Theme = currentItem.Theme;
-                Author = currentItem.Author;
-                Algorithm = currentItem.Algorithm;
-                Path = currentItem.Path;
-                ExecuteTechnique = new Command(ToChangeTechnique);
+                this.Aim = "Изменить";
+                this.currentItem = await this.DBHelper.GetElementById<Technique>(this.currentId);
+                this.Name = this.currentItem.Name;
+                this.Description = this.currentItem.Describtion;
+                this.Theme = this.currentItem.Theme;
+                this.Author = this.currentItem.Author;
+                this.Algorithm = this.currentItem.Algorithm;
+                this.Path = this.currentItem.Path;
+                this.ExecuteTechnique = new Command(ToChangeTechnique);
             }
 
             else
             {
-                Aim = "Добавить";
-                ExecuteTechnique = new Command(ToAddTechnique);
+                this.Aim = "Добавить";
+                this.ExecuteTechnique = new Command(ToAddTechnique);
 
             }
         }
@@ -70,58 +68,58 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
         private async void ToLoadImage(object obj)
         {
 
-            var photo = await MediaPicker.CapturePhotoAsync();
+            FileResult photo = await MediaPicker.CapturePhotoAsync();
             if (photo != null)
             {
-                Path = photo.FullPath;
+                this.Path = photo.FullPath;
 
             }
         }
 
         private async void ToChangeTechnique(object obj)
         {
-            var list = await DBHelper.GetListAsync<Technique>();
+            List<Technique> list = await this.DBHelper.GetListAsync<Technique>();
 
-            var item = new Technique
+            Technique item = new Technique
             {
-                Name = Name,
-                Describtion = Description,
-                Theme = Theme,
-                Author = Author,
-                Algorithm = Algorithm,
-                Path = Path
+                Name = this.Name,
+                Describtion = this.Description,
+                Theme = this.Theme,
+                Author = this.Author,
+                Algorithm = this.Algorithm,
+                Path = this.Path
             };
 
-            list[currentId] = item;
+            list[this.currentId] = item;
 
-            await DBHelper.DeleteAllAsync<Technique>();
-            await DBHelper.InsertAllAsync(list);
+            await this.DBHelper.DeleteAllAsync<Technique>();
+            await this.DBHelper.InsertAllAsync(list);
 
-            MessagingCenter.Send(this, "change", (currentItem, currentId));
-            await Navigation.PushAsync(new TechniquesPage());
+            MessagingCenter.Send(this, "change", (this.currentItem, this.currentId));
+            await this.Navigation.PushAsync(new TechniquesPage());
 
 
         }
         private async void ToAddTechnique(object obj)
         {
-            if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Description) && !string.IsNullOrEmpty(Theme)
-                && !string.IsNullOrEmpty(Author) && !string.IsNullOrEmpty(Algorithm))
+            if (!string.IsNullOrEmpty(this.Name) && !string.IsNullOrEmpty(this.Description) && !string.IsNullOrEmpty(this.Theme)
+                && !string.IsNullOrEmpty(this.Author) && !string.IsNullOrEmpty(this.Algorithm))
             {
                 Technique technique = new Technique
                 {
-                    Id = await DBHelper.GetCountAsync<Technique>(),
+                    Id = await this.DBHelper.GetCountAsync<Technique>(),
                     Date = DateTime.Now.ToString().Split(' ').First(),
-                    Name = Name,
-                    Describtion = Description,
-                    Theme = Theme,
-                    Author = Author,
-                    Algorithm = Algorithm,
-                    Path = Path,
+                    Name = this.Name,
+                    Describtion = this.Description,
+                    Theme = this.Theme,
+                    Author = this.Author,
+                    Algorithm = this.Algorithm,
+                    Path = this.Path,
                 };
 
-                await DBHelper.InsertAsync(technique);
+                await this.DBHelper.InsertAsync(technique);
 
-                await Navigation.PopAsync();
+                _ = await this.Navigation.PopAsync();
 
                 MessagingCenter.Send(this, "add", technique);
             }
@@ -130,91 +128,91 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
 
         public string Name
         {
-            get => name;
+            get => this.name;
             set
             {
-                if (name != value)
+                if (this.name != value)
                 {
-                    name = value;
-                    OnPropertyChanged(nameof(Name));
+                    this.name = value;
+                    OnPropertyChanged(nameof(this.Name));
                 }
             }
         }
 
         public string Description
         {
-            get => describtion;
+            get => this.describtion;
             set
             {
-                if (describtion != value)
+                if (this.describtion != value)
                 {
-                    describtion = value;
-                    OnPropertyChanged(nameof(Description));
+                    this.describtion = value;
+                    OnPropertyChanged(nameof(this.Description));
                 }
             }
         }
 
         public string Theme
         {
-            get => theme;
+            get => this.theme;
             set
             {
-                if (theme != value)
+                if (this.theme != value)
                 {
-                    theme = value;
-                    OnPropertyChanged(nameof(Theme));
+                    this.theme = value;
+                    OnPropertyChanged(nameof(this.Theme));
                 }
             }
         }
 
         public string Author
         {
-            get => author;
+            get => this.author;
             set
             {
-                if (author != value)
+                if (this.author != value)
                 {
-                    author = value;
-                    OnPropertyChanged(nameof(Author));
+                    this.author = value;
+                    OnPropertyChanged(nameof(this.Author));
                 }
             }
         }
 
         public string Algorithm
         {
-            get => algorithm;
+            get => this.algorithm;
             set
             {
-                if (author != value)
+                if (this.author != value)
                 {
-                    algorithm = value;
-                    OnPropertyChanged(nameof(Algorithm));
+                    this.algorithm = value;
+                    OnPropertyChanged(nameof(this.Algorithm));
                 }
             }
         }
 
         public string Path
         {
-            get => path;
+            get => this.path;
             set
             {
-                if (path != value)
+                if (this.path != value)
                 {
-                    path = value;
-                    OnPropertyChanged(nameof(Path));
+                    this.path = value;
+                    OnPropertyChanged(nameof(this.Path));
                 }
             }
         }
 
         public string Aim
         {
-            get => aim;
+            get => this.aim;
             set
             {
-                if (aim != value)
+                if (this.aim != value)
                 {
-                    aim = value;
-                    OnPropertyChanged(nameof(Aim));
+                    this.aim = value;
+                    OnPropertyChanged(nameof(this.Aim));
                 }
             }
         }

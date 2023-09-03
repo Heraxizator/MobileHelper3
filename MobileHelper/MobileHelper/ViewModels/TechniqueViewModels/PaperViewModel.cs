@@ -1,10 +1,7 @@
 ﻿using MobileHelper.Models;
-using MobileHelper.Views;
-using System;
-using System.Collections.Generic;
+using MobileHelper.Models.DataItems;
+using MobileHelper.Models.Items;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace MobileHelper.ViewModels.TechniqueViewModels
@@ -13,8 +10,8 @@ namespace MobileHelper.ViewModels.TechniqueViewModels
     {
         public string text { get; set; }
         public bool isFull { get; set; }
-        public paper paper { get; set; }
-        public ObservableCollection<paper> papers { get; set; }
+        private Paper paper { get; set; }
+        public ObservableCollection<Paper> papers { get; set; }
         public Command Add { get; set; }
         public PaperViewModel()
         {
@@ -23,79 +20,73 @@ namespace MobileHelper.ViewModels.TechniqueViewModels
 
         public PaperViewModel(INavigation navigation)
         {
-            Title = "Техника";
-            Info = "Учёные провели эксперимент и выявили одну замечательную закономерность: если взять лист бумаги, записать свои негативные мысли и выбросить этот лист, то тот негатив потеряют какое-либо значение для человека и перестанет его беспокоить. Но для такой практики совершенно необязательно тратить бумагу. Можно просто воспользоваться текстовым редактором на следующей странице. Техника проста до безобразия!";
-            Navigation = navigation;
-            Finish = new Command(ToFinish);
-            Theory = new Command(ToTheory);
-            papers = new ObservableCollection<paper>();
-            Add = new Command(ToAdd);
+            this.Title = "Техника";
+            this.Info = "Учёные провели эксперимент и выявили одну замечательную закономерность: если взять лист бумаги, записать свои негативные мысли и выбросить этот лист, то тот негатив потеряют какое-либо значение для человека и перестанет его беспокоить. Но для такой практики совершенно необязательно тратить бумагу. Можно просто воспользоваться текстовым редактором на следующей странице. Техника проста до безобразия!";
+            this.Navigation = navigation;
+            this.Finish = new Command(ToFinish);
+            this.Theory = new Command(ToTheory);
+            this.papers = new ObservableCollection<Paper>();
+            this.Add = new Command(ToAdd);
         }
 
         private void ToAdd(object obj)
         {
-            if (!string.IsNullOrEmpty(Text))
+            if (!string.IsNullOrEmpty(this.Text))
             {
-                IsFull = true;
-                paper item = new paper { id = "Карточка №" + (papers.Count + 1), text = Text };
-                papers.Add(item);
-                Paper = item;
+                this.IsFull = true;
+                Paper item = new Paper { Id = "Карточка №" + (this.papers.Count + 1), Text = this.Text };
+                this.papers.Add(item);
+                this.Paper = item;
 
-                Text = "";
+                this.Text = "";
             }
 
         }
 
-        public Command<paper> Delete
+        public Command<Paper> Delete => new Command<Paper>((item) =>
         {
-            get
+            _ = this.papers.Remove(item);
+            if (this.papers.Count == 0)
             {
-                return new Command<paper>((item) =>
-                {
-                    papers.Remove(item);
-                    if (papers.Count == 0)
-                    {
-                        IsFull = false;
-                    }
-                });
+                this.IsFull = false;
             }
-        }
+        });
 
 
         public string Text
         {
-            get => text;
+            get => this.text;
             set
             {
-                if (text != value)
+                if (this.text != value)
                 {
-                    text = value;
-                    OnPropertyChanged(nameof(Text));
+                    this.text = value;
+                    OnPropertyChanged(nameof(this.Text));
                 }
             }
         }
 
         public bool IsFull
         {
-            get => isFull;
+            get => this.isFull;
             set
             {
-                if (isFull != value)
+                if (this.isFull != value)
                 {
-                    isFull = value;
-                    OnPropertyChanged(nameof(IsFull));
+                    this.isFull = value;
+                    OnPropertyChanged(nameof(this.IsFull));
                 }
             }
         }
-        public paper Paper
+        public Paper Paper
         {
-            get => paper;
+            get => this.paper;
             set
             {
-                if (paper != value)
+                if (this.paper != value)
                 {
-                    paper = value;
-                    OnPropertyChanged(nameof(Paper));
+                    this.paper = value;
+                    OnPropertyChanged(nameof(this.Paper));
                 }
             }
         }

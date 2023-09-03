@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 
-namespace MobileHelper.Models.Tables
+namespace MobileHelper.Models.DataItems
 {
-    public class audio
+    public class Audio
     {
         public string Name { get; set; }
         public string Description { get; set; }

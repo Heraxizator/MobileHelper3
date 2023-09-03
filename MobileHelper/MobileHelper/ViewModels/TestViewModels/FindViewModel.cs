@@ -1,7 +1,4 @@
 ﻿using MobileHelper.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -17,14 +14,14 @@ namespace MobileHelper.ViewModels.TestViewModels
 
         public FindViewModel(INavigation navigation)
         {
-            Title = "Детектор";
-            Navigation = navigation;
-            Continue = new Command(ToContinue);
+            this.Title = "Детектор";
+            this.Navigation = navigation;
+            this.Continue = new Command(ToContinue);
         }
 
         private async void ToContinue(object obj)
         {
-            await Navigation.PushAsync(new TestPage());
+            await this.Navigation.PushAsync(new TestPage());
         }
     }
 }

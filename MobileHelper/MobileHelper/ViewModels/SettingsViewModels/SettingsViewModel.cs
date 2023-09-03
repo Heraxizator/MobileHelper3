@@ -1,8 +1,4 @@
 ﻿using MobileHelper.Services;
-using MobileHelper.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -22,85 +18,85 @@ namespace MobileHelper.ViewModels.SettingsViewModels
         }
         public SettingsViewModel(INavigation navigation)
         {
-            Title = "Настройки";
-            Navigation = navigation;
-            Finish = new Command(ToEnd);
-            dialog = DependencyService.Get<DialogService>();
+            this.Title = "Настройки";
+            this.Navigation = navigation;
+            this.Finish = new Command(ToEnd);
+            this.dialog = DependencyService.Get<DialogService>();
         }
 
         private async void ToEnd(object obj)
         {
-            await dialog.ShowAsync("Mobile Helper", "Изменения будут применены при следующем запуске приложения");
+            await this.dialog.ShowAsync("Mobile Helper", "Изменения будут применены при следующем запуске приложения");
 
-            Preferences.Set("Theme", Theme);
-            Preferences.Set("Color", Color);
-            Preferences.Set("Form", Form);
-            Preferences.Set("Size", Size);
-            Preferences.Set("IsBold", IsThick);
+            Preferences.Set("Theme", this.Theme);
+            Preferences.Set("Color", this.Color);
+            Preferences.Set("Form", this.Form);
+            Preferences.Set("Size", this.Size);
+            Preferences.Set("IsBold", this.IsThick);
 
         }
 
         public string Theme
         {
-            get => theme;
+            get => this.theme;
             set
             {
-                if (theme != value)
+                if (this.theme != value)
                 {
-                    theme = value;
-                    OnPropertyChanged(nameof(Theme));
+                    this.theme = value;
+                    OnPropertyChanged(nameof(this.Theme));
                 }
             }
         }
 
         public string Color
         {
-            get => color;
+            get => this.color;
             set
             {
-                if (color != value)
+                if (this.color != value)
                 {
-                    color = value;
-                    OnPropertyChanged(nameof(Color));
+                    this.color = value;
+                    OnPropertyChanged(nameof(this.Color));
                 }
             }
         }
 
         public string Form
         {
-            get => form;
+            get => this.form;
             set
             {
-                if (form != value)
+                if (this.form != value)
                 {
-                    form = value;
-                    OnPropertyChanged(nameof(Form));
+                    this.form = value;
+                    OnPropertyChanged(nameof(this.Form));
                 }
             }
         }
 
         public string Size
         {
-            get => size;
+            get => this.size;
             set
             {
-                if (size != value)
+                if (this.size != value)
                 {
-                    size = value;
-                    OnPropertyChanged(nameof(Size));
+                    this.size = value;
+                    OnPropertyChanged(nameof(this.Size));
                 }
             }
         }
 
         public bool IsThick
         {
-            get => isThick;
+            get => this.isThick;
             set
             {
-                if (isThick != value)
+                if (this.isThick != value)
                 {
-                    isThick = value;
-                    OnPropertyChanged(nameof(IsThick));
+                    this.isThick = value;
+                    OnPropertyChanged(nameof(this.IsThick));
                 }
             }
         }

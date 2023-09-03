@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace MobileHelper.ViewModels.TestViewModels
@@ -50,21 +47,21 @@ namespace MobileHelper.ViewModels.TestViewModels
 
         public TestViewModel(INavigation navigation)
         {
-            Title = "Тест";
-            Navigation = navigation;
+            this.Title = "Тест";
+            this.Navigation = navigation;
 
-            Finish = new Command(ToFinish);
-            Restart = new Command(ToRestart);
-            BlackHandler = new Command(ToBlackHandler);
-            RedHandler = new Command(ToRedHandler);
-            BlueHandler = new Command(ToBlueHandler);
-            PurpleHandler = new Command(ToPurpleHandler);
-            YellowHandler = new Command(ToYellowCommand);
-            BrownHandler = new Command(ToBrownHandler);
-            GreenHandler = new Command(ToGreenHandler);
-            GrayHandler = new Command(ToGrayHandler);
+            this.Finish = new Command(ToFinish);
+            this.Restart = new Command(ToRestart);
+            this.BlackHandler = new Command(ToBlackHandler);
+            this.RedHandler = new Command(ToRedHandler);
+            this.BlueHandler = new Command(ToBlueHandler);
+            this.PurpleHandler = new Command(ToPurpleHandler);
+            this.YellowHandler = new Command(ToYellowCommand);
+            this.BrownHandler = new Command(ToBrownHandler);
+            this.GreenHandler = new Command(ToGreenHandler);
+            this.GrayHandler = new Command(ToGrayHandler);
 
-            positiveValues = new string[8] {
+            this.positiveValues = new string[8] {
                 "Негативизм, неприятие отказ от удовольствия и агрессия заполнили все Ваше сознание и тело. Вы враждебно настроены и можете взорваться яростью в любую минуту. Вы близки к разрушению себя или отношений.",
                 "Сейчас Вы эмоционально возбуждены. Настроение приподнятое. Вы стремитесь к достижению, успеху. Вы наступаете, возможно излишне давите. Вы напористы, порой агрессивны.",
                 "Вы стремитесь к согласию, доверию, пониманию, сочувствию. Сейчас Вы испытываете эмоциональный комфорт, спокойствие, мягкость, мечтательность. Вы расположены к общению с друзьями.",
@@ -75,7 +72,7 @@ namespace MobileHelper.ViewModels.TestViewModels
                 "Вы сейчас в поисках плеча, на которое сможете опереться.Хотите спрятаться от всего тяжелого, что есть в Вашей жизни, обрести эмоциональный покой и пристанище. Вы мимикрируете и маскируете свои истинные чувства под маской деланного безразличия и безучастности."
             };
 
-            negativeValues = new string[8] {
+            this.negativeValues = new string[8] {
                  "Внешне Вы спокойны и уверены. Однако Вы просто загнали агрессию глубоко вовнутрь и перешли на рельсы отрицания и самобичевания.",
                  "Вы постоянно раздражены и перевозбуждены. Вы в глубоком стрессе. Иногда Вы словно обессилены или даже утомлены.",
                  "Вы беспокойны. Возможно недавно произошел разрыв близких отношений. Вы одиноки и расстроены.",
@@ -86,12 +83,12 @@ namespace MobileHelper.ViewModels.TestViewModels
                  "Вы проактивны как никогда. Вы целиком включены в ситуацию «здесь-и-сейчас». Вы контакты, в меру веселы и находчивы. У Вас есть цель и Вы обретаете уверенное спокойствие в завтрашнем дне. Вы словно обрели цель."
             };
 
-            colorValues = new string[8]
+            this.colorValues = new string[8]
             {
                 "Black", "Red", "Blue", "Purple", "Yellow", "Orange", "Green", "Gray"
             };
 
-            nameValues = new string[8]
+            this.nameValues = new string[8]
             {
                 "Чёрный", "Красный", "Синий", "Фиолетовый", "Жёлтый", "Оранжевый", "Зелёный", "Серый"
             };
@@ -106,310 +103,310 @@ namespace MobileHelper.ViewModels.TestViewModels
 
         private void Init()
         {
-            CurrentInstruction = firstInstruction;
-            IsBlack = true;
-            IsRed = true;
-            IsBlue = true;
-            IsPurple = true;
-            IsYellow = true;
-            IsBrown = true;
-            IsGreen = true;
-            IsGray = true;
+            this.CurrentInstruction = firstInstruction;
+            this.IsBlack = true;
+            this.IsRed = true;
+            this.IsBlue = true;
+            this.IsPurple = true;
+            this.IsYellow = true;
+            this.IsBrown = true;
+            this.IsGreen = true;
+            this.IsGray = true;
 
-            firstId = -1;
-            secondId = -1;
+            this.firstId = -1;
+            this.secondId = -1;
 
-            IsStart = true;
-            IsFinish = false;
+            this.IsStart = true;
+            this.IsFinish = false;
         }
 
         private void SaveResult(int id)
         {
-            if (firstId == -1)
+            if (this.firstId == -1)
             {
-                firstId = id;
-                CurrentInstruction = secondInstruction;
-                FirstResult = positiveValues[firstId];
-                FirstColor = colorValues[firstId];
-                FirstName = nameValues[firstId];
+                this.firstId = id;
+                this.CurrentInstruction = secondInstruction;
+                this.FirstResult = this.positiveValues[this.firstId];
+                this.FirstColor = this.colorValues[this.firstId];
+                this.FirstName = this.nameValues[this.firstId];
             }
 
-            else if (secondId == -1)
+            else if (this.secondId == -1)
             {
-                secondId = id;
-                SecondResult = negativeValues[secondId];
-                SecondColor = colorValues[secondId];
-                SecondName = nameValues[secondId];
-                IsStart = false;
-                IsFinish = true;
+                this.secondId = id;
+                this.SecondResult = this.negativeValues[this.secondId];
+                this.SecondColor = this.colorValues[this.secondId];
+                this.SecondName = this.nameValues[this.secondId];
+                this.IsStart = false;
+                this.IsFinish = true;
             }
         }
 
         private void ToGrayHandler(object obj)
         {
-            IsGray = false;
+            this.IsGray = false;
             SaveResult(7);
         }
 
         private void ToGreenHandler(object obj)
         {
-            IsGreen = false;
+            this.IsGreen = false;
             SaveResult(6);
         }
 
         private void ToBrownHandler(object obj)
         {
-            IsBrown = false;
+            this.IsBrown = false;
             SaveResult(5);
         }
 
         private void ToYellowCommand(object obj)
         {
-            IsYellow = false;
+            this.IsYellow = false;
             SaveResult(4);
         }
 
         private void ToPurpleHandler(object obj)
         {
-            IsPurple = false;
+            this.IsPurple = false;
             SaveResult(3);
         }
 
         private void ToBlueHandler(object obj)
         {
-            IsBlue = false;
+            this.IsBlue = false;
             SaveResult(2);
         }
 
         private void ToRedHandler(object obj)
         {
-            IsRed = false;
+            this.IsRed = false;
             SaveResult(1);
         }
 
         private void ToBlackHandler(object obj)
         {
-            IsBlack = false;
+            this.IsBlack = false;
             SaveResult(0);
 
         }
 
         public string CurrentInstruction
         {
-            get => currentInstruction;
+            get => this.currentInstruction;
             set
             {
-                if (currentInstruction != value)
+                if (this.currentInstruction != value)
                 {
-                    currentInstruction = value;
-                    OnPropertyChanged(nameof(CurrentInstruction));
+                    this.currentInstruction = value;
+                    OnPropertyChanged(nameof(this.CurrentInstruction));
                 }
             }
         }
 
         public string FirstResult
         {
-            get => firstResult;
+            get => this.firstResult;
             set
             {
-                if (firstResult != value)
+                if (this.firstResult != value)
                 {
-                    firstResult = value;
-                    OnPropertyChanged(nameof(FirstResult));
+                    this.firstResult = value;
+                    OnPropertyChanged(nameof(this.FirstResult));
                 }
             }
         }
 
         public string SecondResult
         {
-            get => secondResult;
+            get => this.secondResult;
             set
             {
-                if (secondResult != value)
+                if (this.secondResult != value)
                 {
-                    secondResult = value;
-                    OnPropertyChanged(nameof(SecondResult));
+                    this.secondResult = value;
+                    OnPropertyChanged(nameof(this.SecondResult));
                 }
             }
         }
 
         public string FirstColor
         {
-            get => firstColor;
+            get => this.firstColor;
             set
             {
-                if (firstColor != value)
+                if (this.firstColor != value)
                 {
-                    firstColor = value;
-                    OnPropertyChanged(nameof(FirstColor));
+                    this.firstColor = value;
+                    OnPropertyChanged(nameof(this.FirstColor));
                 }
             }
         }
 
         public string SecondColor
         {
-            get => secondColor;
+            get => this.secondColor;
             set
             {
-                if (secondColor != value)
+                if (this.secondColor != value)
                 {
-                    secondColor = value;
-                    OnPropertyChanged(nameof(SecondColor));
+                    this.secondColor = value;
+                    OnPropertyChanged(nameof(this.SecondColor));
                 }
             }
         }
 
         public string FirstName
         {
-            get => firstName;
+            get => this.firstName;
             set
             {
-                if (firstName != value)
+                if (this.firstName != value)
                 {
-                    firstName = value;
-                    OnPropertyChanged(nameof(FirstName));
+                    this.firstName = value;
+                    OnPropertyChanged(nameof(this.FirstName));
                 }
             }
         }
 
         public string SecondName
         {
-            get => secondName;
+            get => this.secondName;
             set
             {
-                if (secondName != value)
+                if (this.secondName != value)
                 {
-                    secondName = value;
-                    OnPropertyChanged(nameof(SecondName));
+                    this.secondName = value;
+                    OnPropertyChanged(nameof(this.SecondName));
                 }
             }
         }
 
         public bool IsStart
         {
-            get => isStart;
+            get => this.isStart;
             set
             {
-                if (isStart != value)
+                if (this.isStart != value)
                 {
-                    isStart = value;
-                    OnPropertyChanged(nameof(IsStart));
+                    this.isStart = value;
+                    OnPropertyChanged(nameof(this.IsStart));
                 }
             }
         }
         public bool IsFinish
         {
-            get => isFinish;
+            get => this.isFinish;
             set
             {
-                if (isFinish != value)
+                if (this.isFinish != value)
                 {
-                    isFinish = value;
-                    OnPropertyChanged(nameof(IsFinish));
+                    this.isFinish = value;
+                    OnPropertyChanged(nameof(this.IsFinish));
                 }
             }
         }
 
         public bool IsBlack
         {
-            get => isBlack;
+            get => this.isBlack;
             set
             {
-                if (isBlack != value)
+                if (this.isBlack != value)
                 {
-                    isBlack = value;
-                    OnPropertyChanged(nameof(IsBlack));
+                    this.isBlack = value;
+                    OnPropertyChanged(nameof(this.IsBlack));
                 }
             }
         }
 
         public bool IsRed
         {
-            get => isRed;
+            get => this.isRed;
             set
             {
-                if (isRed != value)
+                if (this.isRed != value)
                 {
-                    isRed = value;
-                    OnPropertyChanged(nameof(IsRed));
+                    this.isRed = value;
+                    OnPropertyChanged(nameof(this.IsRed));
                 }
             }
         }
 
         public bool IsBlue
         {
-            get => isBlue;
+            get => this.isBlue;
             set
             {
-                if (isBlue != value)
+                if (this.isBlue != value)
                 {
-                    isBlue = value;
-                    OnPropertyChanged(nameof(IsBlue));
+                    this.isBlue = value;
+                    OnPropertyChanged(nameof(this.IsBlue));
                 }
             }
         }
 
         public bool IsPurple
         {
-            get => isPurple;
+            get => this.isPurple;
             set
             {
-                if (isPurple != value)
+                if (this.isPurple != value)
                 {
-                    isPurple = value;
-                    OnPropertyChanged(nameof(IsPurple));
+                    this.isPurple = value;
+                    OnPropertyChanged(nameof(this.IsPurple));
                 }
             }
         }
 
         public bool IsYellow
         {
-            get => isYellow;
+            get => this.isYellow;
             set
             {
-                if (isYellow != value)
+                if (this.isYellow != value)
                 {
-                    isYellow = value;
-                    OnPropertyChanged(nameof(IsYellow));
+                    this.isYellow = value;
+                    OnPropertyChanged(nameof(this.IsYellow));
                 }
             }
         }
 
         public bool IsBrown
         {
-            get => isBrown;
+            get => this.isBrown;
             set
             {
-                if (isBrown != value)
+                if (this.isBrown != value)
                 {
-                    isBrown = value;
-                    OnPropertyChanged(nameof(IsBrown));
+                    this.isBrown = value;
+                    OnPropertyChanged(nameof(this.IsBrown));
                 }
             }
         }
 
         public bool IsGreen
         {
-            get => isGreen;
+            get => this.isGreen;
             set
             {
-                if (isGreen != value)
+                if (this.isGreen != value)
                 {
-                    isGreen = value;
-                    OnPropertyChanged(nameof(IsGreen));
+                    this.isGreen = value;
+                    OnPropertyChanged(nameof(this.IsGreen));
                 }
             }
         }
 
         public bool IsGray
         {
-            get => isGray;
+            get => this.isGray;
             set
             {
-                if (isGray != value)
+                if (this.isGray != value)
                 {
-                    isGray = value;
-                    OnPropertyChanged(nameof(IsGray));
+                    this.isGray = value;
+                    OnPropertyChanged(nameof(this.IsGray));
                 }
             }
         }
