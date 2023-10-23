@@ -21,7 +21,7 @@ namespace MobileHelper.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            CrossMediaManager.Current.Init(this);
+            //CrossMediaManager.Current.Init(this);
 
             UserDialogs.Init(this);
 

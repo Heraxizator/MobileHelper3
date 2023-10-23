@@ -1,12 +1,5 @@
 ﻿using MediaManager;
-using MobileHelper.Models.Tables;
-using MobileHelper.ViewModels.CleanViewModels;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MobileHelper.Models.DataItems;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -23,18 +16,18 @@ namespace MobileHelper.Views.CleanPages
 
         private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var item = e.Item as audio;
+            Audio item = e.Item as Audio;
 
-            var file = item.File;
+            string file = item.File;
 
             if (CrossMediaManager.Current.IsPlaying())
             {
-                CrossMediaManager.Current.Stop();
+                _ = CrossMediaManager.Current.Stop();
             }
 
             else
             {
-                CrossMediaManager.Current.Play(file);
+                _ = CrossMediaManager.Current.Play(file);
 
             }
         }

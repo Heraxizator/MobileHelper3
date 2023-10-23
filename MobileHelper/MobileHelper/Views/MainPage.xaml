@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:views="clr-namespace:MobileHelper.Views"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" 
-            xmlns:views1="clr-namespace:MobileHelper.Views.CleanPages"
+            xmlns:views1="clr-namespace:MobileHelper.Views.CleanPages" 
+            xmlns:views2="clr-namespace:MobileHelper.Views.PhysicsPages" 
+            xmlns:views3="clr-namespace:MobileHelper.Views.ReviewPages"
             android:TabbedPage.ToolbarPlacement="Bottom"
             Title="Главная"
             BarBackgroundColor="White"
@@ -14,7 +16,9 @@
     <!--Pages can be added as references or inline-->
     <views:TechniquesPage Title="Практик" IconImageSource="technique.png"/>
     <views:FindPage Title="Детектор" IconImageSource="technique.png"/>
+    <views2:StartPhysicsPage Title="Соматик" IconImageSource="technique.png"/>
     <views1:MusicPlayerPage Title="Очиститель" IconImageSource="technique.png"/>
+    <views3:FormPage Title="Отзовик" IconImageSource="technique.png"/>
 
     <TabbedPage.ToolbarItems>
         <ToolbarItem Text="Профиль" Clicked="ToolbarItem_Clicked"/>

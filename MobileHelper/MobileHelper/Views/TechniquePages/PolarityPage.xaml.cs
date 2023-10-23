@@ -1,4 +1,5 @@
 ﻿using MobileHelper.Models;
+using MobileHelper.Models.Items;
 using MobileHelper.ViewModels.TechniqueViewModels;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace MobileHelper.Views
         {
             var button = sender as ImageButton;
 
-            var item = button.BindingContext as polarity;
+            var item = button.BindingContext as Polarity;
 
             var vm = BindingContext as PolarityViewModel;
 

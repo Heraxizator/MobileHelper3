@@ -1,8 +1,8 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MobileHelper.Views.TechniquesPage"
-             xmlns:vm="clr-namespace:MobileHelper.ViewModels"
-             xmlns:local="clr-namespace:MobileHelper"
+             xmlns:local="clr-namespace:MobileHelper" 
+             xmlns:vm="clr-namespace:MobileHelper.ViewModels.TechniqueViewModels"
              BackgroundColor="{AppThemeBinding Light=white, Dark=#444444}"
              Title="{Binding Title}">
 
@@ -58,7 +58,7 @@
                             <StackLayout>
                                 <StackLayout Orientation="Horizontal">
                                     <Label 
-                                       Text="{Binding id}"
+                                       Text="{Binding Id}"
                                        Margin="5, 0, 0, 0"
                                        FontSize="14"
                                        TextColor="{AppThemeBinding Light=black, Dark=white}"
@@ -66,7 +66,7 @@
                                        />
 
                                     <Label 
-                                        Text="{Binding date}"
+                                        Text="{Binding Date}"
                                         Margin="0, 0, 5, 0"
                                         FontSize="15"
                                         HorizontalOptions="EndAndExpand"
@@ -77,18 +77,18 @@
                                     <Image 
                                     WidthRequest="85"
                                     HeightRequest="85"
-                                    Source="{Binding image}"
+                                    Source="{Binding Image}"
                                     />
 
                                     <StackLayout Margin="5, 0, 0, 0">
                                         <Label 
-                                        Text="{Binding title}"
+                                        Text="{Binding Title}"
                                         FontSize="18"
                                         FontAttributes="Bold"
                                         TextColor="{AppThemeBinding Light={StaticResource Gray}, Dark=white}"
                                         />
                                         <Label
-                                        Text="{Binding subtitle}"
+                                        Text="{Binding Subtitle}"
                                         Margin="0, 5, 0, 0"
                                         FontSize="15"
                                         TextColor="{AppThemeBinding Light={StaticResource Gray}, Dark=white}"/>
@@ -98,7 +98,7 @@
 
                                 <StackLayout Margin="0" Orientation="Horizontal">
                                     <Label 
-                                       Text="{Binding theme}"
+                                       Text="{Binding Theme}"
                                         Margin="5, 0, 0, 0"
                                        FontSize="15"
                                        TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=white}"
@@ -106,7 +106,7 @@
                                        />
 
                                     <Label 
-                                    Text="{Binding author}"
+                                    Text="{Binding Author}"
                                         Margin="0, 0, 5, 0"
                                     FontSize="14"
                                     HorizontalOptions="EndAndExpand"

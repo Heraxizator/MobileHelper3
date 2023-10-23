@@ -98,7 +98,7 @@
                     VerticalOptions="CenterAndExpand"
                     HorizontalScrollBarVisibility="Never"
                     HeightRequest="150"
-                    ItemsSource="{Binding techniques}">
+                    ItemsSource="{Binding Techniques}">
 
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Horizontal" />
@@ -113,13 +113,13 @@
 
                                     <StackLayout Margin="10, 5, 5, 5">
                                         <Label 
-                                        Text="{Binding title}"
+                                        Text="{Binding Title}"
                                         FontAttributes="Bold"
                                         TextColor="{Binding Gray}"
                                         FontSize="18"/>
 
                                         <Label
-                                        Text="{Binding subtitle}"
+                                        Text="{Binding Subtitle}"
                                         TextColor="Black"
                                         FontSize="16"/>
 
@@ -145,7 +145,7 @@
                         HasUnevenRows="True"
                         VerticalScrollBarVisibility="Never"
                         SeparatorVisibility="None"
-                        ItemsSource="{Binding quots}">
+                        ItemsSource="{Binding Quots}">
 
                         <ListView.ItemTemplate>
                             <DataTemplate>

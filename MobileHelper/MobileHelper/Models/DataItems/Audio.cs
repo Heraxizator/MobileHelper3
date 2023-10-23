@@ -12,5 +12,7 @@ namespace MobileHelper.Models.DataItems
         public string Description { get; set; }
         public string File { get; set; }
         public bool Loading { get; set; }
+        public bool Playing { get; set; }
+        public ICommand ClickCommand { get; set; }
     }
 }

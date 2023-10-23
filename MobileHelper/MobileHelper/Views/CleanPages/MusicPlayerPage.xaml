@@ -36,7 +36,7 @@
                 SelectionMode="None"
                 HasUnevenRows="True"
                 RowHeight="150"
-                ItemsSource="{Binding AudioItems}">
+                ItemsSource="{Binding SelectedItems}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

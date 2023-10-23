@@ -1,4 +1,5 @@
 ﻿using MobileHelper.Models;
+using MobileHelper.Models.DataItems;
 using MobileHelper.ViewModels.TechniqueViewModels;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace MobileHelper.Views
         {
             var button = sender as ImageButton;
 
-            var item = button.BindingContext as paper;
+            var item = button.BindingContext as Paper;
 
             var vm = BindingContext as PaperViewModel;
 
