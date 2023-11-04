@@ -38,11 +38,11 @@ namespace MobileHelper.ViewModels.ReviewViewModels
             }
             catch (FeatureNotSupportedException)
             {
-                DependencyService.Get<IToastService>().ShortAlert("Возникла ошибка");
+                DialogService.ShowAsync("Mobile Helper", "Отправка СМС не поддерживается");
             }
             catch (Exception)
             {
-
+                DialogService.ShowAsync("Mobile Helper", "Ошибка при отправке СМС");
             }
         }
 

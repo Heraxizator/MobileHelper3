@@ -9,7 +9,6 @@ using Xamarin.Forms;
 using AndroidX.AppCompat.App;
 using static Android.Content.Res.Resources;
 using View = Xamarin.Forms.View;
-using Acr.UserDialogs;
 using MediaManager;
 
 namespace MobileHelper.Droid
@@ -22,8 +21,6 @@ namespace MobileHelper.Droid
             base.OnCreate(savedInstanceState);
 
             //CrossMediaManager.Current.Init(this);
-
-            UserDialogs.Init(this);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

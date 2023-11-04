@@ -142,11 +142,24 @@
                         -->
 
                         <Button 
-                            Margin="10, 20, 10, 15"
-                            Text="Изменить"
+                            Margin="10, 20, 10, 5"
+                            Text="Галерея"
                             FontSize="13"
                             TextColor="White"
-                            Command="{Binding LoadImage}"
+                            Command="{Binding OpenGallery}"
+                            BackgroundColor="{StaticResource Accent}"
+                            CornerRadius="25"
+                            WidthRequest="400"
+                            HeightRequest="35"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+
+                        <Button 
+                            Margin="10, 0, 10, 15"
+                            Text="Камера"
+                            FontSize="13"
+                            TextColor="White"
+                            Command="{Binding OpenCamera}"
                             BackgroundColor="{StaticResource Accent}"
                             CornerRadius="25"
                             WidthRequest="400"

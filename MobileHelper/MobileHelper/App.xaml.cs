@@ -1,12 +1,7 @@
 ﻿
 using MobileHelper.Services;
-using MobileHelper.Views;
-using System;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Xamarin.Forms.Xaml;
 using Application = Xamarin.Forms.Application;
 
 namespace MobileHelper
@@ -20,21 +15,19 @@ namespace MobileHelper
 
             InitializeComponent();
 
-            DependencyService.Register<DialogService>();
-            DependencyService.Register<MockDataStore>();
-            MainPage = new AppShell();
- 
+            this.MainPage = new AppShell();
+
         }
 
         private void Init()
         {
             string theme = Preferences.Get("Theme", "Светлая");
 
-            switch(theme)
+            switch (theme)
             {
                 case "Светлая":
                     Application.Current.UserAppTheme = OSAppTheme.Light;
-                   
+
                     break;
                 case "Тёмная":
                     Application.Current.UserAppTheme = OSAppTheme.Dark;

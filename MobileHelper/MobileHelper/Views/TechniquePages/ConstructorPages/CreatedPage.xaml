@@ -5,6 +5,8 @@
              xmlns:local="clr-namespace:MobileHelper" 
              xmlns:vm="clr-namespace:MobileHelper.ViewModels.ConstructorViewModels"
              BackgroundColor="{AppThemeBinding Light=white, Dark=#444444}"
+             NavigationPage.HasBackButton="True"
+             NavigationPage.HasNavigationBar="True"
              Title="{Binding Title}">
     
     <ContentPage.BindingContext>

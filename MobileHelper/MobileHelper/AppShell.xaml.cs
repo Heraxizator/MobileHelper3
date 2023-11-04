@@ -1,4 +1,5 @@
-﻿using MobileHelper.ViewModels;
+﻿using MobileHelper.Services;
+using MobileHelper.ViewModels;
 using MobileHelper.Views;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace MobileHelper
         {
             InitializeComponent();
 
+            DBHelper.Init();
         }
     }
 }

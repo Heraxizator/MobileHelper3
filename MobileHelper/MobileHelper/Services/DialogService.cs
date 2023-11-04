@@ -7,10 +7,16 @@ namespace MobileHelper.Services
 {
     public class DialogService : IDialog
     {
-        public async Task ShowAsync(string title, string message)
+        public void ShowAsync(string title, string message)
         {
-            await App.Current.MainPage.DisplayAlert(title, message, "Ok");
-            
+            App.Current.MainPage.DisplayAlert(title, message, "Ok");
+        }
+
+        public async Task<bool> AskAsync(string title, string message, string accept, string cancel)
+        {
+            bool result = await App.Current.MainPage.DisplayAlert(title, message, accept, cancel);
+
+            return result;
         }
     }
 }

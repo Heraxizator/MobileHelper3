@@ -14,126 +14,209 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
     {
         public new INavigation Navigation { get; set; }
         public ICommand ExecuteTechnique { get; set; }
-        public ICommand LoadImage { get; set; }
-        private SqliteDB DBHelper { get; set; }
-        private string name { get; set; }
-        private string describtion { get; set; }
-        private string theme { get; set; }
-        private string author { get; set; }
-        private string algorithm { get; set; }
-        private string path { get; set; }
-        private string aim { get; set; }
+        public ICommand OpenCamera { get; set; }
+        public ICommand OpenGallery { get; set; }
+        private string _name_string { get; set; }
+        private string _describtion_string { get; set; }
+        private string _theme_string { get; set; }
+        private string _author_string { get; set; }
+        private string _algorithm_string { get; set; }
+        private string _path_string { get; set; }
+        private string _aim_string { get; set; }
         private int currentId { get; set; }
-        private Technique currentItem { get; set; }
         public DesignerViewModel()
         {
 
         }
         public DesignerViewModel(INavigation navigation, int id)
         {
-            this.Navigation = navigation;
-            this.Title = "Конструктор";
-            this.LoadImage = new Command(ToLoadImage);
-            this.DBHelper = new SqliteDB();
-            this.Path = "technique.png";
             this.currentId = id;
 
+            this.Path = "technique.png";
+
+            this.Title = "Конструктор";
+
+            this.Navigation = navigation;
+
+            this.OpenCamera = new Command(ToOpenCamera);
+
+            this.OpenGallery = new Command(ToOpenGallery);
 
             Init();
         }
-        private async void Init()
-        {
 
+        private void Init()
+        {
             if (this.currentId != -1)
             {
+                TechniqueDB current_item = DBRepository.GetTechniqueById(this.currentId);
+
                 this.Aim = "Изменить";
-                this.currentItem = await this.DBHelper.GetElementById<Technique>(this.currentId);
-                this.Name = this.currentItem.Name;
-                this.Description = this.currentItem.Describtion;
-                this.Theme = this.currentItem.Theme;
-                this.Author = this.currentItem.Author;
-                this.Algorithm = this.currentItem.Algorithm;
-                this.Path = this.currentItem.Path;
+
+                this.Name = current_item.Title;
+
+                this.Description = current_item.Subtitle;
+
+                this.Theme = current_item.Theme;
+
+                this.Author = current_item.Theme;
+
+                this.Algorithm = current_item.Algorithm;
+
+                this.Path = current_item.Image;
+
                 this.ExecuteTechnique = new Command(ToChangeTechnique);
             }
 
             else
             {
                 this.Aim = "Добавить";
+
                 this.ExecuteTechnique = new Command(ToAddTechnique);
-
             }
         }
 
-        private async void ToLoadImage(object obj)
+        private async void ToOpenCamera(object obj)
         {
-
-            FileResult photo = await MediaPicker.CapturePhotoAsync();
-            if (photo != null)
+            if (!MediaPicker.IsCaptureSupported)
             {
-                this.Path = photo.FullPath;
+                this.DialogService.ShowAsync("Ошибка", "Камера не поддерживается на вашем устройстве");
+                return;
+            }
 
+            try
+            {
+                FileResult photo = await MediaPicker.CapturePhotoAsync();
+
+                if (photo != null)
+                {
+                    this.Path = photo.FullPath;
+                }
+            }
+
+            catch (FeatureNotSupportedException)
+            {
+                this.DialogService.ShowAsync("Ошибка", "Камера не поддерживается на вашем устройстве");
+            }
+            catch (PermissionException)
+            {
+                this.DialogService.ShowAsync("Ошибка", "Приложению не предоставлено разрешение на использование камеры");
+            }
+            catch (Exception)
+            {
+                this.DialogService.ShowAsync("Ошибка", "Не удалось применить камеру. Напишите в техническую поддержку");
             }
         }
 
-        private async void ToChangeTechnique(object obj)
+        private async void ToOpenGallery(object obj)
         {
-            List<Technique> list = await this.DBHelper.GetListAsync<Technique>();
-
-            Technique item = new Technique
+            try
             {
-                Name = this.Name,
-                Describtion = this.Description,
+                FileResult photo = await MediaPicker.PickPhotoAsync();
+
+                if (photo != null)
+                {
+                    this.Path = photo.FullPath;
+                }
+            }
+
+            catch (FeatureNotSupportedException)
+            {
+                this.DialogService.ShowAsync("Ошибка", "Галерея не поддерживается на вашем устройстве");
+            }
+            catch (PermissionException)
+            {
+                this.DialogService.ShowAsync("Ошибка", "Приложению не предоставлено разрешение на использование галереи");
+            }
+            catch (Exception)
+            {
+                this.DialogService.ShowAsync("Ошибка", "Не удалось применить галерею. Напишите в техническую поддержку");
+            }
+        }
+
+        private void ToChangeTechnique(object obj)
+        {
+            TechniqueDB item = new TechniqueDB
+            {
+                Id = this.currentId,
+                Title = this.Name,
+                Subtitle = this.Description,
                 Theme = this.Theme,
                 Author = this.Author,
                 Algorithm = this.Algorithm,
-                Path = this.Path
+                Image = this.Path
             };
 
-            list[this.currentId] = item;
+            bool result = DBRepository.UpdateTechnique(item);
 
-            await this.DBHelper.DeleteAllAsync<Technique>();
-            await this.DBHelper.InsertAllAsync(list);
+            if (!result)
+            {
+                this.DialogService.ShowAsync("Ошибка", "Не удалось изменить технику");
+            }
 
-            MessagingCenter.Send(this, "change", (this.currentItem, this.currentId));
-            await this.Navigation.PushAsync(new TechniquesPage());
+            else
+            {
+                try
+                {
+                    MessagingCenter.Send<object, TechniqueDB>(this, "change", item);
+                }
+                
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
 
-
+                this.Navigation.PopToRootAsync(false);
+            }
         }
-        private async void ToAddTechnique(object obj)
+        private void ToAddTechnique(object obj)
         {
             if (!string.IsNullOrEmpty(this.Name) && !string.IsNullOrEmpty(this.Description) && !string.IsNullOrEmpty(this.Theme)
                 && !string.IsNullOrEmpty(this.Author) && !string.IsNullOrEmpty(this.Algorithm))
             {
-                Technique technique = new Technique
+                int count = DBRepository.CountTechniques();
+
+                TechniqueDB technique = new TechniqueDB
                 {
-                    Id = await this.DBHelper.GetCountAsync<Technique>(),
+                    Id = count + 1,
                     Date = DateTime.Now.ToString().Split(' ').First(),
-                    Name = this.Name,
-                    Describtion = this.Description,
+                    Title = this.Name,
+                    Subtitle = this.Description,
                     Theme = this.Theme,
                     Author = this.Author,
                     Algorithm = this.Algorithm,
-                    Path = this.Path,
+                    Image = this.Path,
                 };
 
-                await this.DBHelper.InsertAsync(technique);
+                bool result = DBRepository.AddTechnique(technique);
 
-                _ = await this.Navigation.PopAsync();
+                if (!result)
+                {
+                    this.DialogService.ShowAsync("Ошибка", "Не удалось добавить технику");
+                }
 
-                MessagingCenter.Send(this, "add", technique);
+                else
+                {
+                    MessagingCenter.Send<object, TechniqueDB>(this, "add", technique);
+
+                    _ = this.Navigation.PopAsync(false);
+                }
             }
 
+            else
+            {
+                this.DialogService.ShowAsync("Ошибка", "Необходимо заполнить все поля");
+            }
         }
 
         public string Name
         {
-            get => this.name;
+            get => this._name_string;
             set
             {
-                if (this.name != value)
+                if (this._name_string != value)
                 {
-                    this.name = value;
+                    this._name_string = value;
                     OnPropertyChanged(nameof(this.Name));
                 }
             }
@@ -141,12 +224,12 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
 
         public string Description
         {
-            get => this.describtion;
+            get => this._describtion_string;
             set
             {
-                if (this.describtion != value)
+                if (this._describtion_string != value)
                 {
-                    this.describtion = value;
+                    this._describtion_string = value;
                     OnPropertyChanged(nameof(this.Description));
                 }
             }
@@ -154,12 +237,12 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
 
         public string Theme
         {
-            get => this.theme;
+            get => this._theme_string;
             set
             {
-                if (this.theme != value)
+                if (this._theme_string != value)
                 {
-                    this.theme = value;
+                    this._theme_string = value;
                     OnPropertyChanged(nameof(this.Theme));
                 }
             }
@@ -167,12 +250,12 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
 
         public string Author
         {
-            get => this.author;
+            get => this._author_string;
             set
             {
-                if (this.author != value)
+                if (this._author_string != value)
                 {
-                    this.author = value;
+                    this._author_string = value;
                     OnPropertyChanged(nameof(this.Author));
                 }
             }
@@ -180,12 +263,12 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
 
         public string Algorithm
         {
-            get => this.algorithm;
+            get => this._algorithm_string;
             set
             {
-                if (this.author != value)
+                if (this._author_string != value)
                 {
-                    this.algorithm = value;
+                    this._algorithm_string = value;
                     OnPropertyChanged(nameof(this.Algorithm));
                 }
             }
@@ -193,12 +276,12 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
 
         public string Path
         {
-            get => this.path;
+            get => this._path_string;
             set
             {
-                if (this.path != value)
+                if (this._path_string != value)
                 {
-                    this.path = value;
+                    this._path_string = value;
                     OnPropertyChanged(nameof(this.Path));
                 }
             }
@@ -206,12 +289,12 @@ namespace MobileHelper.ViewModels.ConstructorViewModels
 
         public string Aim
         {
-            get => this.aim;
+            get => this._aim_string;
             set
             {
-                if (this.aim != value)
+                if (this._aim_string != value)
                 {
-                    this.aim = value;
+                    this._aim_string = value;
                     OnPropertyChanged(nameof(this.Aim));
                 }
             }

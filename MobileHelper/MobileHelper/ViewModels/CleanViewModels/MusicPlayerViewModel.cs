@@ -126,7 +126,7 @@ namespace MobileHelper.ViewModels.CleanViewModels
 
         private void OnFailded(object sender, EventArgs e)
         {
-            DependencyService.Get<IToastService>().ShortAlert("Не удалось загрузить аудио");
+            DialogService.ShowAsync("Mobile Helper", "Не удалось загрузить аудио");
         }
 
         private void ToSearch(string input)

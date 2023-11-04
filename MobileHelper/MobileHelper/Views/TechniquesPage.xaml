@@ -34,16 +34,15 @@
                 WidthRequest="150"
                 HorizontalOptions="End"
                 VerticalOptions="Center"
-                Clicked="Button_Clicked"
+                Command="{Binding ConstructorTapped}"
                 HeightRequest="40"/>
         </StackLayout>
 
         <ListView
             HasUnevenRows="True"
             SeparatorVisibility="None"
-            ItemsSource="{Binding techniques}"
+            ItemsSource="{Binding Techniques}"
             SelectionMode="None"
-            ItemTapped="ListView_ItemTapped"
             VerticalScrollBarVisibility="Never"
             HorizontalScrollBarVisibility="Never"
             >
@@ -53,12 +52,13 @@
                     <ViewCell>
 
                         <local:LocalFrame
+                            IsVisible="{Binding Active}"
                             CornerRadius="25">
 
                             <StackLayout>
                                 <StackLayout Orientation="Horizontal">
                                     <Label 
-                                       Text="{Binding Id}"
+                                       Text="{Binding Number}"
                                        Margin="5, 0, 0, 0"
                                        FontSize="14"
                                        TextColor="{AppThemeBinding Light=black, Dark=white}"
@@ -114,6 +114,11 @@
                                 </StackLayout>
 
                             </StackLayout>
+
+                            <local:LocalFrame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TapCommand}"/>
+                            </local:LocalFrame.GestureRecognizers>
+                            
                         </local:LocalFrame>
 
                     </ViewCell>

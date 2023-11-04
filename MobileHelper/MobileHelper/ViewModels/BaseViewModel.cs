@@ -1,5 +1,4 @@
-﻿using MobileHelper.Models.Items.Items;
-using MobileHelper.Services;
+﻿using MobileHelper.Services;
 using MobileHelper.Views;
 using System;
 using System.Collections.Generic;
@@ -12,18 +11,11 @@ namespace MobileHelper.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public IDialog DialogService = new DialogService();
         public INavigation Navigation { get; set; }
         public ICommand Finish { get; set; }
         public ICommand Theory { get; set; }
         public string Info { get; set; }
-
-        private bool isBusy = false;
-        public bool IsBusy
-        {
-            get => this.isBusy;
-            set => SetProperty(ref this.isBusy, value);
-        }
 
         private string title = string.Empty;
         public string Title
@@ -34,23 +26,14 @@ namespace MobileHelper.ViewModels
 
         public async void ToTheory(object obj)
         {
-            if (obj is null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-
-            await this.Navigation.PushAsync(new TheoryPage(this.Info));
+            await this.Navigation.PushAsync(new TheoryPage(this.Info), false);
         }
 
         public async void ToFinish(object obj)
         {
-            if (obj is null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-
-            _ = await this.Navigation.PopAsync();
+            _ = await this.Navigation.PopAsync(false);
         }
+
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
             Action onChanged = null)

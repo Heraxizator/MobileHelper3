@@ -1,60 +1,67 @@
-﻿using MobileHelper.Models.Items;
+﻿using MobileHelper.Helpers;
+using MobileHelper.Models.Items;
+using MobileHelper.Models.Tables;
+using MobileHelper.Services;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Xamarin.Forms;
 
 namespace MobileHelper.ViewModels.ProfileViewModels
 {
     public class UserViewModel : BaseViewModel
     {
-        public ObservableCollection<technique> Techniques { get; set; }
+        public ObservableCollection<TechniqueItem> Techniques { get; set; }
         public ObservableCollection<Quots> Quots { get; set; }
 
-        public UserViewModel()
+        public UserViewModel(INavigation navigation)
         {
             this.Title = "Профиль";
 
-            this.Techniques = new ObservableCollection<technique>()
+            this.Navigation = navigation;
+
+            this.Techniques = new ObservableCollection<TechniqueItem>();
+
+            this.Quots = new ObservableCollection<Quots>();
+
+            Init();
+        }
+
+        public UserViewModel() { }
+
+        public void Init()
+        {
+            IEnumerable<TechniqueItem> source = TechniquesDataStore.GetStaticTechniques(this.Navigation);
+
+            IEnumerable<TechniqueItem> techniques = ShareDataStore<TechniqueItem>.SelectRandomItems(source.ToList(), 3);
+
+            foreach (TechniqueItem technique in techniques)
             {
-                new technique
-                {
-                    Title = "Лист бумаги",
-                    Subtitle = "Быстрое очищение от негативных мыслей"
-                },
-                new technique
-                {
-                    Title = "50 лет спустя",
-                    Subtitle = "Понижение важности за 10 секунд",
-                },
+                this.Techniques.Add(technique);
+            }
 
-                new technique
-                {
-                    Title = "Протокол Руби",
-                    Subtitle = "Ликвидация любых привязанностей, зависимостей и привычек",
-                },
+            IList<Models.Tables.QuotDB> itemsDB = DBRepository.GetQuots();
 
-                new technique
-                {
-                    Title = "Модификация опыта",
-                    Subtitle = "Проработка ограничений, убеждений и моделей поведения",
-                }
-            };
+            IList<Quots> items = QuotsHandler.ParseQuots(itemsDB);
 
-            this.Quots = new ObservableCollection<Quots>()
+            IEnumerable<Quots> qouts = ShareDataStore<Quots>.SelectRandomItems(items, 3);
+
+            foreach (Quots quot in qouts)
             {
-                new Quots
-                {
-                    Author = "Михаил Булгаков",
-                    Text = "Что нужно для счастья? Только два, господа, только два: здоровое тело и спокойная душа."
-                },
+                this.Quots.Add(quot);
+            }
 
-                new Quots
+            if (!qouts.Any())
+            {
+                IEnumerable<Quots> elems = QuotsDataStore.GetStaticQuots();
+
+                IEnumerable<Quots> quots = ShareDataStore<Quots>.SelectRandomItems(elems.ToList(), 3);
+
+                foreach (Quots quot in quots)
                 {
-                    Author = "Народная мудрость",
-                    Text = "Лучше смерть, чем бесчестие."
+                    this.Quots.Add(quot);
                 }
-
-            };
-
-
+            }
         }
     }
 }

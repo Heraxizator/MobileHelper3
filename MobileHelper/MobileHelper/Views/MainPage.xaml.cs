@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MobileHelper.Services;
+using MobileHelper.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +17,13 @@ namespace MobileHelper.Views
         public MainPage()
         {
             InitializeComponent();
+
+            this.BindingContext = new MainViewModel();
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new UserPage());
+            await this.Navigation.PushAsync(new UserPage(), false);
         }
     }
 }

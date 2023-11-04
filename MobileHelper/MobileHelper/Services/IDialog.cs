@@ -7,6 +7,7 @@ namespace MobileHelper.Services
 {
     public interface IDialog
     {
-        Task ShowAsync(string title, string message);
+        public void ShowAsync(string title, string message);
+        public Task<bool> AskAsync(string title, string message, string accept, string cancel);
     }
 }

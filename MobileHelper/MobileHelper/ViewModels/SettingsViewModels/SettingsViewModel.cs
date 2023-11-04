@@ -24,9 +24,9 @@ namespace MobileHelper.ViewModels.SettingsViewModels
             this.dialog = DependencyService.Get<DialogService>();
         }
 
-        private async void ToEnd(object obj)
+        private void ToEnd(object obj)
         {
-            await this.dialog.ShowAsync("Mobile Helper", "Изменения будут применены при следующем запуске приложения");
+            this.dialog.ShowAsync("Mobile Helper", "Изменения будут применены при следующем запуске приложения");
 
             Preferences.Set("Theme", this.Theme);
             Preferences.Set("Color", this.Color);

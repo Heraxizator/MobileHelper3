@@ -1,10 +1,5 @@
-﻿using MobileHelper.ViewModels;
+﻿using MobileHelper.Models.Tables;
 using MobileHelper.ViewModels.ConstructorViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -17,7 +12,8 @@ namespace MobileHelper.Views
         public DesignerPage(int id)
         {
             InitializeComponent();
-            BindingContext = new DesignerViewModel(Navigation, id);
+            this.BindingContext = new DesignerViewModel(this.Navigation, id);
         }
+
     }
 }

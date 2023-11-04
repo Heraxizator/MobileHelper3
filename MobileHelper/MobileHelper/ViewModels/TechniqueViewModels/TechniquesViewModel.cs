@@ -1,148 +1,98 @@
-﻿using MobileHelper.Models.Items;
+﻿using MobileHelper.Helpers;
+using MobileHelper.Models.Items;
 using MobileHelper.Models.Tables;
 using MobileHelper.Services;
 using MobileHelper.ViewModels.ConstructorViewModels;
+using MobileHelper.Views;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace MobileHelper.ViewModels.TechniqueViewModels
 {
     public class TechniquesViewModel : BaseViewModel
     {
-        public ObservableCollection<technique> techniques { get; set; }
+        public ObservableCollection<TechniqueItem> Techniques { get; set; }
+        public ICommand ConstructorTapped { get; set; }
 
-        private readonly int base_count = 7;
-
-        private const string image = "technique.png";
-        private SqliteDB DBHelper { get; set; }
-        public TechniquesViewModel()
+        public TechniquesViewModel(INavigation navigation)
         {
             this.Title = "Список техник";
 
-            Init();
+            this.Navigation = navigation;
 
-            MessagingCenter.Subscribe<DesignerViewModel, Technique>(this, "add", (sender, item) => this.techniques.Add(ParseFromDB(item)));
+            this.Techniques = new ObservableCollection<TechniqueItem>();
 
-            MessagingCenter.Subscribe<CreatedViewModel, int>(this, "remove", (sender, id) => this.techniques.RemoveAt(this.base_count + id));
+            this.ConstructorTapped = new Command((object obj) => this.Navigation.PushAsync(new DesignerPage(-1), false));
 
-            MessagingCenter.Subscribe<DesignerViewModel, (Technique, int)>(this, "change", (sender, couple) =>
+            DBHelper.Init();
+
+            InitSync();
+
+            SetObservers();
+
+            _ = QuotsHandler.InitQuotsAsync(5);
+        }
+
+        public TechniquesViewModel()
+        {
+
+        }
+
+        public void InitSync()
+        {
+            IEnumerable<TechniqueItem> source = TechniquesDataStore.GetStaticTechniques(this.Navigation);
+
+            foreach (TechniqueItem item in source)
             {
-                Technique item = couple.Item1;
-                int id = couple.Item2;
-                this.techniques[this.base_count + id] = ParseFromDB(item);
+                this.Techniques.Add(item);
+            }
+
+            IList<TechniqueDB> list = DBRepository.GetTechniques();
+
+            foreach (TechniqueDB item in list)
+            {
+                this.Techniques.Add(ParseFromDB(item));
+            }
+        }
+
+        private void SetObservers()
+        {
+            MessagingCenter.Subscribe<object, TechniqueDB>(this, "add", (sender, item) => this.Techniques.Add(ParseFromDB(item)));
+
+            MessagingCenter.Subscribe<object, TechniqueDB>(this, "remove", (sender, item) =>
+            {
+                this.Techniques.Clear();
+
+                InitSync();
+            });
+
+            MessagingCenter.Subscribe<object, TechniqueDB>(this, "change", (sender, item) =>
+            {
+                this.Techniques.Clear();
+
+                InitSync();
             });
         }
 
-        public async void Init()
+        private TechniqueItem ParseFromDB(TechniqueDB item)
         {
-            this.DBHelper = new SqliteDB();
-
-            this.techniques = new ObservableCollection<technique>()
+            return new TechniqueItem
             {
-                new technique
-                {
-                    Id = "Техника №1",
-                    Date="26.01.2023",
-                    Image = image,
-                    Title = "Крутилка",
-                    Subtitle = "Метод мгновенной нейтрализации травм и шоков",
-                    Theme = "Эпизоды",
-                    Author = "Живорад Славинский"
-                },
-
-                new technique
-                {
-                    Id = "Техника №2",
-                    Date="26.01.2023",
-                    Image = image,
-                    Title = "Сравнение важностей",
-                    Subtitle = "Прошлое, настоящее и будущее",
-                    Theme = "Важность",
-                    Author = "НЛП"
-                },
-                new technique
-                {
-                    Id = "Техника №3",
-                    Date="26.01.2023",
-                    Image = image,
-                    Title = "Полярности",
-                    Subtitle = "Работа с противоположными аспектами",
-                    Theme = "Аспекты",
-                    Author = "Живорад Славинский"
-                },
-                new technique
-                {
-                    Id = "Техника №4",
-                    Date="26.01.2023",
-                    Image = image,
-                    Title = "Лист бумаги",
-                    Subtitle = "Быстрое очищение от негативных мыслей",
-                    Theme = "Мысли",
-                    Author = "Психика"
-                },
-                new technique
-                {
-                    Id = "Техника №5",
-                    Date="30.01.2023",
-                    Image = image,
-                    Title = "50 лет спустя",
-                    Subtitle = "Понижение важности за 10 секунд",
-                    Theme = "Важность",
-                    Author = "НЛП"
-                },
-
-                new technique
-                {
-                    Id = "Техника №6",
-                    Date="30.01.2023",
-                    Image = image,
-                    Title = "Протокол Руби",
-                    Subtitle = "Ликвидация любых привязанностей, зависимостей и привычек",
-                    Theme = "Обработчик",
-                    Author = "Турбо-Суслик"
-                },
-
-                new technique
-                {
-                    Id = "Техника №7",
-                    Date="08.02.2023",
-                    Image = image,
-                    Title = "Модификация опыта",
-                    Subtitle = "Проработка ограничений, убеждений и моделей поведения",
-                    Theme = "Эпизоды",
-                    Author = "Филипп Славинский"
-                }
-            };
-
-            System.Collections.Generic.List<Technique> list = await this.DBHelper.GetListAsync<Technique>();
-
-            if (list.Count > 0)
-            {
-                foreach (Technique item in list)
-                {
-                    this.techniques.Add(ParseFromDB(item));
-                }
-            }
-
-
-        }
-
-        private technique ParseFromDB(Technique item)
-        {
-            return new technique
-            {
-                Id = "Техника №" + (this.techniques.Count + 1),
+                Id = item.Id,
+                Number = "Техника №" + (this.Techniques.Count + 1),
                 Date = item.Date,
-                Image = item.Path,
-                Title = item.Name,
-                Subtitle = item.Describtion,
+                Image = item.Image,
+                Title = item.Title,
+                Subtitle = item.Subtitle,
                 Theme = item.Theme,
                 Author = item.Author,
-
-
+                Active = !item.Removed,
+                TapCommand = new Command(
+                    async () => await this.Navigation.PushAsync(new CreatedPage(item.Id), false))
             };
         }
-
 
     }
 }
